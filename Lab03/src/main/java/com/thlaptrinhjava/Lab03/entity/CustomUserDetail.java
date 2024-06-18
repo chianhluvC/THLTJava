@@ -1,5 +1,6 @@
 package com.thlaptrinhjava.Lab03.entity;
 
+import com.thlaptrinhjava.Lab03.repository.IuserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,7 +10,11 @@ import java.util.List;
 
 public class CustomUserDetail implements UserDetails {
     private final User user;
-    public CustomUserDetail(User user){this.user = user;}
+    private final IuserRepository userRepository;
+    public CustomUserDetail(User user,IuserRepository userRepository){
+        this.user = user;
+        this.userRepository = userRepository;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
