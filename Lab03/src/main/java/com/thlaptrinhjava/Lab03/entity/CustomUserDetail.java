@@ -2,11 +2,14 @@ package com.thlaptrinhjava.Lab03.entity;
 
 import com.thlaptrinhjava.Lab03.repository.IuserRepository;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CustomUserDetail implements UserDetails {
     private final User user;
@@ -18,7 +21,9 @@ public class CustomUserDetail implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        return Arrays.stream(userRepository.getRoleOfUser(user.getId()))
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toSet());
     }
 
     @Override
